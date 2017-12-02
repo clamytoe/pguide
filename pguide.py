@@ -4,8 +4,7 @@ from bs4 import BeautifulSoup
 from collections import namedtuple
 from re import sub
 
-Show = namedtuple('Show', ['id', 'movieID', 'title', 'url'])
-Show.__new__.__defaults__ = (None, None, None, None)
+Show = namedtuple('Show', ['show_id', 'movie_id', 'title', 'url'])
 
 
 def initialize_connection():

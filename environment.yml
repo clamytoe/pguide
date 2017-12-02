@@ -6,6 +6,7 @@ dependencies:
 - html5lib=0.999999999
 - pyopenssl=17.4.0
 - pysocks=1.6.7
+- pytest=3.3.0
 - python=3.6.3
 - requests=2.18.4
 - wheel=0.30.0

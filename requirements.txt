@@ -2,6 +2,7 @@ beautifulsoup4==4.6.0
 html5lib==0.999999999
 pyOpenSSL==17.4.0
 PySocks==1.6.7
+pytest==3.3.0
 requests==2.18.4
 win-inet-pton==1.0.1
 wincertstore==0.2
