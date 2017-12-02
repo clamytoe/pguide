@@ -70,10 +70,11 @@ def scrape_movie(url):
         print('[RATINGS]')
         for rating in ratings:
             print(f' {rating}', end=' ')
+        print()
 
     nudity, nudity_comments = parse_nudity(soup_nudity)
     if nudity or nudity_comments:
-        print('\n[NUDITY]')
+        print('[NUDITY]')
         print(f' {nudity}')
         for n_comment in nudity_comments:
             print(f'  * {n_comment}')
