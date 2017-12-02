@@ -9,8 +9,8 @@ Show.__new__.__defaults__ = (None, None, None, None)
 
 
 def initialize_connection():
-    ia = imdb.IMDb()
-    return ia
+    session = imdb.IMDb()
+    return session
 
 
 def search_for_title(session, search_term):
@@ -128,7 +128,6 @@ def parse_nudity(soup):
 
 
 def parse_profanity(soup):
-    # print(soup)
     profanity_tags = soup.find_all('a', {'class': 'interesting-count-text severity-vote-prompt'})
     profanity_scale = [code.string for code in profanity_tags]
     profanity = profanity_scale[0] if profanity_scale else None
@@ -142,7 +141,7 @@ def parse_profanity(soup):
 
 def main():
     session = initialize_connection()
-    search_term = input("What movie/show would you like me to look up for you? ")
+    search_term = input("What would you like me to look up for you? ")
     print(f'Please wait while I search for "{search_term}"...')
     shows = search_for_title(session, search_term)
     print(f'Found {len(shows)} matches.')
