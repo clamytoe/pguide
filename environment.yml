@@ -12,5 +12,4 @@ dependencies:
 - win_inet_pton=1.0.1
 - wincertstore=0.2
 - pip:
-  - imdbpy==6.3.dev20171130
   - win-inet-pton==1.0.1
