@@ -53,6 +53,22 @@ def display_shows(shows):
             break
 
 
+def display_ratings(ratings):
+    if ratings:
+        print('[RATINGS]')
+        for rating in ratings:
+            print(f' {rating}', end=' ')
+        print()
+
+
+def display_section(title, category, category_comments):
+    if category or category_comments:
+        print(f'[{title.upper()}]')
+        print(f' {category}')
+        for comment in category_comments:
+            print(f'  * {comment}')
+
+
 def scrape_movie(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html5lib')
@@ -62,25 +78,12 @@ def scrape_movie(url):
     soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
 
     ratings = parse_certificates(soup_certificates)
-    if ratings:
-        print('[RATINGS]')
-        for rating in ratings:
-            print(f' {rating}', end=' ')
-        print()
-
     nudity, nudity_comments = parse_nudity(soup_nudity)
-    if nudity or nudity_comments:
-        print('[NUDITY]')
-        print(f' {nudity}')
-        for n_comment in nudity_comments:
-            print(f'  * {n_comment}')
-
     profanity, profanity_comments = parse_profanity(soup_profanity)
-    if profanity and profanity_comments:
-        print('[PROFANITY]')
-        print(f' {profanity}')
-        for p_comment in profanity_comments:
-            print(f'  * {p_comment}')
+
+    display_ratings(ratings)
+    display_section('nudity', nudity, nudity_comments)
+    display_section('profanity', profanity, profanity_comments)
 
 
 def get_plot(url):
