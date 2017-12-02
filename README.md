@@ -34,7 +34,6 @@ pip install -r requirements.txt
 #### Final setup
 ```bash
 activate pguide # or source activate pguide
-pip install git+https://github.com/alberanid/imdbpy
 ```
 
 ## How to run
