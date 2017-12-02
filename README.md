@@ -1,11 +1,12 @@
 # Parental Guide (pguide)
 > Parental Guide assistant for media that uses IMDbPY.
 
+![Python version][python-version]
+[![Build Status][travis-image]][travis-url]
 [![GitHub issues][issues-image]][issues-url]
 [![GitHub forks][fork-image]][fork-url]
 [![GitHub Stars][stars-image]][stars-url]
 [![License][license-image]][license-url]
-![Python version][python-version]
 
 My kids are big movie and anime buffs and are constantly asking me to look up shows to see if they are allowed to watch them. This of course takes time, more so when they bring you a list of them!
 
@@ -46,6 +47,9 @@ python pguide.py
 ## Sample run
 ![sample run](attack_on_titan.png)
 
+[python-version]:https://img.shields.io/badge/python-3.6.3-brightgreen.svg
+[travis-image]:https://travis-ci.org/clamytoe/pguide.svg?branch=master
+[travis-url]:https://travis-ci.org/clamytoe/pguide
 [issues-image]:https://img.shields.io/github/issues/clamytoe/pguide.svg
 [issues-url]:https://github.com/clamytoe/pguide/issues
 [fork-image]:https://img.shields.io/github/forks/clamytoe/pguide.svg
@@ -54,4 +58,3 @@ python pguide.py
 [stars-url]:https://github.com/clamytoe/pguide/stargazers
 [license-image]:https://img.shields.io/github/license/clamytoe/pguide.svg
 [license-url]:https://github.com/clamytoe/pguide/blob/master/LICENSE
-[python-version]:https://img.shields.io/badge/python-3.6.3-brightgreen.svg
