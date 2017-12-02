@@ -78,8 +78,8 @@ def scrape_movie(url):
     soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
 
     ratings = parse_certificates(soup_certificates)
-    nudity, nudity_comments = parse_nudity(soup_nudity)
-    profanity, profanity_comments = parse_profanity(soup_profanity)
+    nudity, nudity_comments = parse_section(soup_nudity)
+    profanity, profanity_comments = parse_section(soup_profanity)
 
     display_ratings(ratings)
     display_section('nudity', nudity, nudity_comments)
@@ -118,28 +118,16 @@ def parse_certificates(soup):
     return mpaa
 
 
-def parse_nudity(soup):
-    nudity_tags = soup.find_all('a', {'class': 'advisory-severity-vote__message'})
-    nudity_scale = [code.string for code in nudity_tags]
-    nudity = nudity_scale[0] if nudity_scale else None
+def parse_section(soup):
+    section_tag = soup.find_all('a', {'class': 'advisory-severity-vote__message'})
+    section_scale = [code.string for code in section_tag]
+    section = section_scale[0] if section_scale else None
 
-    comment_tags = soup.find_all('li', {'class': 'ipl-zebra-list__item'})
-    comment_list = [comment.text.strip() for comment in comment_tags]
-    comments = cleanup_comments(comment_list)
+    section_comment_tags = soup.find_all('li', {'class': 'ipl-zebra-list__item'})
+    section_comment_list = [comment.text.strip() for comment in section_comment_tags]
+    comments = cleanup_comments(section_comment_list)
 
-    return nudity, comments
-
-
-def parse_profanity(soup):
-    profanity_tags = soup.find_all('a', {'class': 'interesting-count-text severity-vote-prompt'})
-    profanity_scale = [code.string for code in profanity_tags]
-    profanity = profanity_scale[0] if profanity_scale else None
-
-    comment_tags = soup.find_all('li', {'class': 'ipl-zebra-list__item'})
-    comment_list = [comment.text.strip() for comment in comment_tags]
-    comments = cleanup_comments(comment_list)
-
-    return profanity, comments
+    return section, comments
 
 
 def main():
