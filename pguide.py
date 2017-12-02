@@ -5,6 +5,7 @@ from collections import namedtuple
 from re import sub
 
 Show = namedtuple('Show', ['show_id', 'movie_id', 'title', 'url'])
+Show.__new__.__defaults__ = (None, None, None, None)
 
 
 def initialize_connection():
