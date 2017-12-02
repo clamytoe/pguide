@@ -42,7 +42,7 @@ def display_shows(shows):
         another = True
 
         if choice in shows.keys():
-            print(f'Retrieving additional information for "{shows[choice].title}"')
+            print(f'Retrieving additional information for {shows[choice].title}')
             plot = get_plot(shows[choice].url)
             if plot:
                 print('[PLOT]')
@@ -92,7 +92,10 @@ def get_plot(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html5lib')
     plot_tag = soup.find('div', {'class': 'summary_text'})
-    return plot_tag.string.strip()
+    try:
+        return plot_tag.string.strip()
+    except AttributeError:
+        return "The plot was not available."
 
 
 def cleanup_comments(comments):
