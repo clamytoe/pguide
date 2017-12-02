@@ -47,7 +47,6 @@ def display_shows(shows):
             if plot:
                 print('[PLOT]')
                 print(f' {plot}')
-            # print(shows[choice].url)
             scrape_movie(shows[choice].url)
         else:
             print(f'{choice} is not a valid choice!')
@@ -60,10 +59,7 @@ def scrape_movie(url):
     soup_sections = soup.find('section', {'class': 'article listo content-advisories-index'})
     soup_certificates = soup_sections.find('section', {'id': 'certificates'})
     soup_nudity = soup_sections.find('section', {'id': 'advisory-nudity'})
-    # soup_violence = soup_sections.find('section', {'id': 'advisory-violence'})
     soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
-    # soup_alcohol = soup_sections.find('section', {'id': 'advisory-alcohol'})
-    # soup_frightening = soup_sections.find('section', {'id': 'advisory-frightening'})
 
     ratings = parse_certificates(soup_certificates)
     if ratings:
