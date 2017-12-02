@@ -10,3 +10,10 @@ def test_asdict():
                 'title': 'Wonder Woman',
                 'url': 'http://www.imdb.com/title/tt0451279'}
     assert t_dict == expected
+
+
+def test_initialize_connection():
+    session = pguide.initialize_connection()
+    assert type(session) == pguide.imdb.parser.http.IMDbHTTPAccessSystem
+
+
