@@ -94,7 +94,7 @@ def get_plot(url):
     try:
         return plot_tag.string.strip()
     except AttributeError:
-        return "The plot was not available."
+        return 'The plot was not available.'
 
 
 def cleanup_comments(comments):
