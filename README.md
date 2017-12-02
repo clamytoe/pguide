@@ -1,5 +1,5 @@
-# pguide
-> Parental Guide assistant for media that uses IMDb.
+# Parental Guide (pguide)
+> Parental Guide assistant for media that uses IMDbPY.
 
 [![GitHub issues][issues-image]][issues-url]
 [![GitHub forks][fork-image]][fork-url]
@@ -9,7 +9,7 @@
 
 My kids are big movie and anime buffs and are constantly asking me to look up shows to see if they are allowed to watch them. This of course takes time, more so when they bring you a list of them!
 
-I wrote this script to help me out with that task. I was surprised to discover that it also worked for video games!
+I wrote this script to help me out with that task. I was surprised to discover that it also worked for video games! I did use [IMDbPY](https://github.com/alberanid/imdbpy) to help with the initial searching.
 
 ## How to set it all up
 First of all, you have to setup the environment. I've included both a *requirements.txt* and an *environment.yml* file in order to make things easier. Perform the steps in the *Initial* and *Final* setups but do either the *Anaconda* or *Python* ones depending on which one you prefer to work with.
