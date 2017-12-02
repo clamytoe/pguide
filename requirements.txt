@@ -1,5 +1,6 @@
 beautifulsoup4==4.6.0
 html5lib==0.999999999
+IMDbPY>=6.2
 pyOpenSSL==17.4.0
 PySocks==1.6.7
 pytest==3.3.0
