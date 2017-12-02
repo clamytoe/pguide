@@ -1,0 +1,16 @@
+name: pguide
+channels:
+- defaults
+dependencies:
+- beautifulsoup4=4.6.0
+- html5lib=0.999999999
+- pyopenssl=17.4.0
+- pysocks=1.6.7
+- python=3.6.3
+- requests=2.18.4
+- wheel=0.30.0
+- win_inet_pton=1.0.1
+- wincertstore=0.2
+- pip:
+  - imdbpy==6.3.dev20171130
+  - win-inet-pton==1.0.1
