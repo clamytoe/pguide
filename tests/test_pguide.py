@@ -1,7 +1,7 @@
 # import mock
 # import pytest
 # from pytest_mock import mocker
-import pguide
+from pguide import pguide
 
 session = pguide.initialize_connection()
 
