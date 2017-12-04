@@ -32,7 +32,7 @@ setup(
     install_requires=requirements,
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pytest-flake8'],
-    entry_pints={
+    entry_points={
         'console_scripts': ['pguide=pguide.pguide:main'],
     }
 )
