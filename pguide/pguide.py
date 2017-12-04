@@ -9,11 +9,21 @@ Show.__new__.__defaults__ = (None, None, None, None)
 
 
 def initialize_connection():
+    """
+    Initializes the connection with IMDb.
+    :return: An imdb.parser.http.IMDbHTTPAccessSystem object
+    """
     session = imdb.IMDb()
     return session
 
 
 def search_for_title(session, search_term):
+    """
+    Given an imdb session object, will search the site for the given search term.
+    :param session: imdb session object
+    :param search_term: String for the movie/show/game to search for
+    :return: A dictionary with Show() namedtuple objects for each match
+    """
     s_result = session.search_movie(search_term)
     shows = {}
 
@@ -27,6 +37,11 @@ def search_for_title(session, search_term):
 
 
 def display_shows(shows):
+    """
+    Given a dictionary of show objects, displays them and gives you a choice of which one to get further details for.
+    :param shows: Dictionary of the Show() namedtupless
+    :return: None
+    """
     another = False
     while True:
         if another:
@@ -54,17 +69,32 @@ def display_shows(shows):
 
 
 def display_ratings(ratings):
+    """
+    Displays the ratings that were scraped.
+    :param ratings: List of MPAA ratings
+    :return: None
+    """
     if ratings:
         print('[RATINGS]')
+
         for rating in ratings:
             print(f' {rating}', end=' ')
+        # needed to get printing back to normal
         print()
 
 
 def display_section(title, category, category_comments):
+    """
+    Displays the given section in the proper format.
+    :param title: String name of the section that we are displaying
+    :param category: 
+    :param category_comments: List of comments that were found for the given category
+    :return:
+    """
     if category or category_comments:
         print(f'[{title.upper()}]')
         print(f' {category}')
+
         for comment in category_comments:
             print(f'  * {comment}')
 
@@ -91,6 +121,7 @@ def get_plot(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html5lib')
     plot_tag = soup.find('div', {'class': 'summary_text'})
+
     try:
         return plot_tag.string.strip()
     except AttributeError:
@@ -99,10 +130,12 @@ def get_plot(url):
 
 def cleanup_comments(comments):
     clean_comments = []
+
     if comments:
         for comment in comments:
             cleaned_up = sub(r'\n\n {8}\n {8}\n {12}\n {16}\n {16}\n {12}\nEdit', '', comment)
             clean_comments.append(cleaned_up)
+
     return clean_comments
 
 
