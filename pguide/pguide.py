@@ -27,6 +27,7 @@ def search_for_title(session, search_term):
     s_result = session.search_movie(search_term)
     shows = {}
 
+    # made the keys of the namedtuple a digit for ease of selecting the correct one later
     for count, result in enumerate(s_result):
         show_id = count
         movie_id = result.movieID
@@ -43,25 +44,35 @@ def display_shows(shows):
     :return: None
     """
     another = False
+
+    # put this portion into an infinite loop to allow for reviewing other listed media
     while True:
+        # display a different question on the second or more pass
         if another:
             again = input('Would you like to review a different one? [y/n]')
+            # if user replies with anything starting with a y, run it gain; otherwise break out fo the loop
             if not again.lower().startswith('y'):
                 print('Ok')
                 break
 
+        # list all of the shows that were found
         for n in range(len(shows)):
             print(f'[{n}] {shows[n].title}')
 
         choice = int(input('Which one would you like to review? '))
-        another = True
+        another = True # after first pass, set this flag
 
         if choice in shows.keys():
             print(f'Retrieving additional information for {shows[choice].title}')
+            # the plot is not on the same page as the other information so requires its own scrape
             plot = get_plot(shows[choice].url)
+
+            # if the plot was found, display it, otherwise skip past it
             if plot:
                 print('[PLOT]')
                 print(f' {plot}')
+
+            # scrape the actual content that we need
             scrape_movie(shows[choice].url)
         else:
             print(f'{choice} is not a valid choice!')
@@ -74,6 +85,7 @@ def display_ratings(ratings):
     :param ratings: List of MPAA ratings
     :return: None
     """
+    # only attempt to display the ratings if any were found
     if ratings:
         print('[RATINGS]')
 
@@ -91,6 +103,7 @@ def display_section(title, category, category_comments):
     :param category_comments: List of comments that were found for the given category
     :return:
     """
+    # only attempt to print these if either of them were found
     if category or category_comments:
         print(f'[{title.upper()}]')
         print(f' {category}')
@@ -107,17 +120,22 @@ def scrape_movie(url):
     :param url: String with the URL of the media to scrape
     :return: None
     """
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html5lib')
+    soup = get_soup(url)
+
+    # scrape all of the sections
     soup_sections = soup.find('section', {'class': 'article listo content-advisories-index'})
+
+    # scrape for the specific sections required
     soup_certificates = soup_sections.find('section', {'id': 'certificates'})
     soup_nudity = soup_sections.find('section', {'id': 'advisory-nudity'})
     soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
 
+    # further scrape the sections above
     ratings = parse_certificates(soup_certificates)
     nudity, nudity_comments = parse_section(soup_nudity)
     profanity, profanity_comments = parse_section(soup_profanity)
 
+    # here is where we actually format and show the results
     display_ratings(ratings)
     display_section('nudity', nudity, nudity_comments)
     display_section('profanity', profanity, profanity_comments)
@@ -129,11 +147,12 @@ def get_plot(url):
     :param url: String with the URL to the main page of the media
     :return: String contents of the plot or default message
     """
-    url = url.rsplit('/', 1)[0]
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html5lib')
+    soup = get_soup(url.rsplit('/', 1)[0])
+
+    # scrape the plot section
     plot_tag = soup.find('div', {'class': 'summary_text'})
 
+    # fixes bug were no plot is found
     try:
         return plot_tag.string.strip()
     except AttributeError:
@@ -162,12 +181,14 @@ def parse_certificates(soup):
     :param soup: Beautiful soup object for the certificates section
     :return: List of the ratings that were found
     """
+    # removes the first item because it does not needed
     rating_tags = soup.find_all('a')[1:]
     rating_codes = [code.string for code in rating_tags]
     mpaa = []
 
     if rating_codes:
         for rating in rating_codes:
+            # sorry international folks, only interested in the US ratings
             if rating.startswith('United States'):
                 mpaa.append(rating)
     return mpaa
@@ -190,15 +211,23 @@ def parse_section(soup):
     return section, comments
 
 
+def get_soup(url):
+    # standard scraping setup
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html5lib')
+
+    return soup
+
+
 def main():
     """
     Main entry point for the script
     :return: None
     """
-    session = initialize_connection()
     search_term = input("What would you like me to look up for you? ")
     print(f'Please wait while I search for "{search_term}"...')
-    shows = search_for_title(session, search_term)
+    # initial connection is slow, so moved here to improve perceived performance
+    shows = search_for_title(initialize_connection(), search_term)
     print(f'Found {len(shows)} matches.')
     display_shows(shows)
 
