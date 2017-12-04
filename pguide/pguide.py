@@ -39,7 +39,7 @@ def search_for_title(session, search_term):
 def display_shows(shows):
     """
     Given a dictionary of show objects, displays them and gives you a choice of which one to get further details for.
-    :param shows: Dictionary of the Show() namedtupless
+    :param shows: Dictionary of the Show() namedtuples
     :return: None
     """
     another = False
@@ -87,7 +87,7 @@ def display_section(title, category, category_comments):
     """
     Displays the given section in the proper format.
     :param title: String name of the section that we are displaying
-    :param category: 
+    :param category: String or List for the section category
     :param category_comments: List of comments that were found for the given category
     :return:
     """
@@ -100,6 +100,13 @@ def display_section(title, category, category_comments):
 
 
 def scrape_movie(url):
+    """
+    Scraping handler
+
+    Initiates scraping of the different sections required by the script.
+    :param url: String with the URL of the media to scrape
+    :return: None
+    """
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html5lib')
     soup_sections = soup.find('section', {'class': 'article listo content-advisories-index'})
@@ -117,6 +124,11 @@ def scrape_movie(url):
 
 
 def get_plot(url):
+    """
+    Scrapes the plot from the provided URL.
+    :param url: String with the URL to the main page of the media
+    :return: String contents of the plot or default message
+    """
     url = url.rsplit('/', 1)[0]
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html5lib')
@@ -129,6 +141,11 @@ def get_plot(url):
 
 
 def cleanup_comments(comments):
+    """
+    Cleans up the given comments.
+    :param comments: List containing all the comments for a specific section
+    :return: List with the comments cleanup up
+    """
     clean_comments = []
 
     if comments:
@@ -140,6 +157,11 @@ def cleanup_comments(comments):
 
 
 def parse_certificates(soup):
+    """
+    Parses the certificates specific to the United States.
+    :param soup: Beautiful soup object for the certificates section
+    :return: List of the ratings that were found
+    """
     rating_tags = soup.find_all('a')[1:]
     rating_codes = [code.string for code in rating_tags]
     mpaa = []
@@ -152,6 +174,11 @@ def parse_certificates(soup):
 
 
 def parse_section(soup):
+    """
+    Parses the given section.
+    :param soup: Beautifulsoup object for the section to process
+    :return: Tuple containinf the String of section if one was found or else None and a List of cleaned up comments
+    """
     section_tag = soup.find_all('a', {'class': 'advisory-severity-vote__message'})
     section_scale = [code.string for code in section_tag]
     section = section_scale[0] if section_scale else None
@@ -164,6 +191,10 @@ def parse_section(soup):
 
 
 def main():
+    """
+    Main entry point for the script
+    :return: None
+    """
     session = initialize_connection()
     search_term = input("What would you like me to look up for you? ")
     print(f'Please wait while I search for "{search_term}"...')
@@ -173,4 +204,7 @@ def main():
 
 
 if __name__ == '__main__':
+    """
+    Runs the script if it is ran from the command line and not if loaded as a module.
+    """
     main()
