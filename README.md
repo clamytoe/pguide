@@ -14,7 +14,7 @@ My kids are big movie and anime buffs and are constantly asking me to look up sh
 I wrote this script to help me out with that task. I was surprised to discover that it also worked for video games! I did use [IMDbPY](https://github.com/alberanid/imdbpy) to help with the initial searching.
 
 ## How to set it all up
-First of all, you have to setup the environment. I've included both a *requirements.txt* and an *environment.yml* file in order to make things easier. Perform the steps in the *Initial* and *Final* setups but do either the *Anaconda* or *Python* ones depending on which one you prefer to work with.
+First of all, you should setup a virtual environment. I've included both a *requirements.txt* and an *environment.yml* file in order to make things easier. Perform the steps in the *Initial* and *Final* setups but do either the *Anaconda* or *Python* ones depending on which one you prefer to work with.
 
 #### Initial setup
 ```bash
@@ -36,13 +36,14 @@ pip install -r requirements.txt
 #### Final setup
 ```bash
 activate pguide # or source activate pguide
+python setup.py install
 ```
 
 ## How to run
 Once that's all out of the way simply run the program and follow the prompts.
 
 ```bash
-python pguide.py
+pguide
 ```
 
 ## Sample run
