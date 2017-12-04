@@ -1,3 +1,5 @@
+import socket
+
 import imdb
 import requests
 from bs4 import BeautifulSoup
@@ -224,10 +226,11 @@ def main():
     Main entry point for the script
     :return: None
     """
+    print("Establishing a connection with the IMDb service...")
+    session = initialize_connection()
     search_term = input("What would you like me to look up for you? ")
     print(f'Please wait while I search for "{search_term}"...')
-    # initial connection is slow, so moved here to improve perceived performance
-    shows = search_for_title(initialize_connection(), search_term)
+    shows = search_for_title(session, search_term)
     print(f'Found {len(shows)} matches.')
     display_shows(shows)
 
