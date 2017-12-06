@@ -60,7 +60,7 @@ def display_shows(shows):
             print(f'[{n}] {shows[n].title}')
 
         choice = int(input('Which one would you like to review? '))
-        another = True # after first pass, set this flag
+        another = True  # after first pass, set this flag
 
         if choice in shows.keys():
             print(f'Retrieving additional information for {shows[choice].title}')
