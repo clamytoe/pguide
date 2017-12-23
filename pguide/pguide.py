@@ -155,10 +155,13 @@ def get_plot(url):
     soup = get_soup(url.rsplit('/', 1)[0])
 
     # scrape the plot section
-    plot_tag = soup.find('div', {'class': 'summary_text'})
+    plot_div = soup.find('div', {'id': 'titleStoryLine'})
 
     # fixes bug were no plot is found
     try:
+        plot_class = plot_div.find('div', {'itemprop': 'description'})
+        plot_tag = plot_class.find('p')
+
         return plot_tag.string.strip()
     except AttributeError:
         return 'The plot was not available.'

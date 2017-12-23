@@ -1,6 +1,3 @@
-# import mock
-# import pytest
-# from pytest_mock import mocker
 from pguide import pguide
 
 session = pguide.initialize_connection()
@@ -40,6 +37,9 @@ def test_search_for_title():
 def test_get_plot():
     t_plot1 = pguide.get_plot('http://www.imdb.com/title/tt0451279/')
     t_plot2 = pguide.get_plot('http://www.imdb.com/')
-    assert t_plot1 == 'When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior ' \
-                      'in training, leaves home to fight a war, discovering her full powers and true destiny.'
+    assert t_plot1 == 'Diana, princess of the Amazons, trained to be an unconquerable warrior. Raised on a sheltered ' \
+                      'island paradise, when a pilot crashes on their shores and tells of a massive conflict raging ' \
+                      'in the outside world, Diana leaves her home, convinced she can stop the threat. Fighting ' \
+                      'alongside man in a war to end all wars, Diana will discover her full powers and her true ' \
+                      'destiny.'
     assert t_plot2 == 'The plot was not available.'
