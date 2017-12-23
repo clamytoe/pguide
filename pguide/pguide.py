@@ -161,8 +161,8 @@ def get_plot(url):
     try:
         plot_class = plot_div.find('div', {'itemprop': 'description'})
         plot_tag = plot_class.find('p')
-
-        return plot_tag.string.strip()
+        plot = plot_tag.text.strip()
+        return ' '.join(plot.split())
     except AttributeError:
         return 'The plot was not available.'
 
