@@ -16,7 +16,7 @@ requirements = read('requirements.txt').split()
 
 setup(
     name="pguide",
-    version="0.1.0",
+    version="0.1.1",
     author="Martin Uribe",
     author_email="clamytoe@gmail.com",
     description="Parental Guide assistant for media on IMDb.",
