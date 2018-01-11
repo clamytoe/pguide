@@ -37,6 +37,13 @@ def search_for_title(session, search_term):
     return shows
 
 
+def display_error():
+    message = '#' * 10
+    message += '\n  CONNECTION ERROR \n'
+    message += '#' * 10
+    exit(1)
+
+
 def display_shows(shows):
     """
     Given a dictionary of show objects, displays them and gives you a choice of which one to get further details for.
@@ -127,23 +134,26 @@ def scrape_movie(url):
     """
     soup = get_soup(url)
 
-    # scrape all of the sections
-    soup_sections = soup.find('section', {'class': 'article listo content-advisories-index'})
+    if soup:
+        # scrape all of the sections
+        soup_sections = soup.find('section', {'class': 'article listo content-advisories-index'})
 
-    # scrape for the specific sections required
-    soup_certificates = soup_sections.find('section', {'id': 'certificates'})
-    soup_nudity = soup_sections.find('section', {'id': 'advisory-nudity'})
-    soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
+        # scrape for the specific sections required
+        soup_certificates = soup_sections.find('section', {'id': 'certificates'})
+        soup_nudity = soup_sections.find('section', {'id': 'advisory-nudity'})
+        soup_profanity = soup_sections.find('section', {'id': 'advisory-profanity'})
 
-    # further scrape the sections above
-    ratings = parse_certificates(soup_certificates)
-    nudity, nudity_comments = parse_section(soup_nudity)
-    profanity, profanity_comments = parse_section(soup_profanity)
+        # further scrape the sections above
+        ratings = parse_certificates(soup_certificates)
+        nudity, nudity_comments = parse_section(soup_nudity)
+        profanity, profanity_comments = parse_section(soup_profanity)
 
-    # here is where we actually format and show the results
-    display_ratings(ratings)
-    display_section('nudity', nudity, nudity_comments)
-    display_section('profanity', profanity, profanity_comments)
+        # here is where we actually format and show the results
+        display_ratings(ratings)
+        display_section('nudity', nudity, nudity_comments)
+        display_section('profanity', profanity, profanity_comments)
+    else:
+        display_error()
 
 
 def get_plot(url):
@@ -154,17 +164,20 @@ def get_plot(url):
     """
     soup = get_soup(url.rsplit('/', 1)[0])
 
-    # scrape the plot section
-    plot_div = soup.find('div', {'id': 'titleStoryLine'})
+    if soup:
+        # scrape the plot section
+        plot_div = soup.find('div', {'id': 'titleStoryLine'})
 
-    # fixes bug were no plot is found
-    try:
-        plot_class = plot_div.find('div', {'itemprop': 'description'})
-        plot_tag = plot_class.find('p')
-        plot = plot_tag.text.strip()
-        return ' '.join(plot.split())
-    except AttributeError:
-        return 'The plot was not available.'
+        # fixes bug were no plot is found
+        try:
+            plot_class = plot_div.find('div', {'itemprop': 'description'})
+            plot_tag = plot_class.find('p')
+            plot = plot_tag.text.strip()
+            return ' '.join(plot.split())
+        except AttributeError:
+            return 'The plot was not available.'
+    else:
+        display_error()
 
 
 def cleanup_comments(comments):
@@ -221,10 +234,13 @@ def parse_section(soup):
 
 def get_soup(url):
     # standard scraping setup
-    page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html5lib')
+    try:
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html5lib')
 
-    return soup
+        return soup
+    except requests.exceptions.ConnectionError:
+        return None
 
 
 def main():
