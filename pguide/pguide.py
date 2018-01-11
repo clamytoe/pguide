@@ -73,7 +73,6 @@ def display_shows(shows):
             # if user replies with anything starting with a n, break out of the loop
             if again.lower().startswith('n'):
                 clear_screen()
-                print('Ok')
                 break
             else:
                 clear_screen()
