@@ -71,8 +71,11 @@ def display_shows(shows):
             again = input('Would you like to review a different one? ([y]/n)')
             # if user replies with anything starting with a n, break out of the loop
             if again.lower().startswith('n'):
+                clear_screen()
                 print('Ok')
                 break
+            else:
+                clear_screen()
 
         # list all of the shows that were found
         for n in range(len(shows)):
@@ -83,10 +86,12 @@ def display_shows(shows):
             choice = int(input('Which one would you like to review? '))
             another = True  # after first pass, set this flag
         except ValueError:
+            clear_screen()
             print('Bye!')
             break
 
         if choice in shows.keys():
+            clear_screen()
             print(f'Retrieving additional information for {shows[choice].title}')
             # the plot is not on the same page as the other information so requires its own scrape
             plot = get_plot(shows[choice].url)
@@ -139,7 +144,7 @@ def display_section(title, category, category_comments):
 def scrape_movie(url):
     """
     Scraping handler
-    
+
     Initiates scraping of the different sections required by the script.
     :param url: String with the URL of the media to scrape
     :return: None
@@ -264,11 +269,14 @@ def main():
     Main entry point for the script
     :return: None
     """
+    clear_screen()
     print("Establishing a connection with the IMDb service...")
     session = initialize_connection()
     search_term = input("What would you like me to look up for you? ")
+    clear_screen()
     print(f'Please wait while I search for "{search_term}"...')
     shows = search_for_title(session, search_term)
+    clear_screen()
     print(f'Found {len(shows)} matches.')
     display_shows(shows)
 
