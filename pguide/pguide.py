@@ -56,9 +56,9 @@ def display_shows(shows):
     while True:
         # display a different question on the second or more pass
         if another:
-            again = input('Would you like to review a different one? [y/n]')
-            # if user replies with anything starting with a y, run it gain; otherwise break out fo the loop
-            if not again.lower().startswith('y'):
+            again = input('Would you like to review a different one? ([y]/n)')
+            # if user replies with anything starting with a n, break out of the loop
+            if again.lower().startswith('n'):
                 print('Ok')
                 break
 
