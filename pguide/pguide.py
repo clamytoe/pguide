@@ -2,10 +2,19 @@ import imdb
 import requests
 from bs4 import BeautifulSoup
 from collections import namedtuple
+from os import system, name
 from re import sub
 
 Show = namedtuple('Show', ['show_id', 'movie_id', 'title', 'url'])
 Show.__new__.__defaults__ = (None, None, None, None)
+
+
+def clear_screen():
+    """
+    Clears the screen
+    :return: None
+    """
+    _ = system('cls' if name == 'nt' else 'clear')
 
 
 def initialize_connection():
@@ -38,9 +47,12 @@ def search_for_title(session, search_term):
 
 
 def display_error():
-    message = '#' * 10
-    message += '\n  CONNECTION ERROR \n'
-    message += '#' * 10
+    """
+    Displays a generic error message when there is a connection error.
+    :return: None
+    """
+    line = '#' * 10
+    print(f'{line}\n  CONNECTION ERROR \n{line}')
     exit(1)
 
 
@@ -127,7 +139,7 @@ def display_section(title, category, category_comments):
 def scrape_movie(url):
     """
     Scraping handler
-
+    
     Initiates scraping of the different sections required by the script.
     :param url: String with the URL of the media to scrape
     :return: None
@@ -233,7 +245,11 @@ def parse_section(soup):
 
 
 def get_soup(url):
-    # standard scraping setup
+    """
+    Standard scraping setup.
+    :param url: String - url for the site to retrieve.
+    :return: BeautifulSoup object or None
+    """
     try:
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html5lib')
