@@ -51,8 +51,9 @@ def display_error():
     Displays a generic error message when there is a connection error.
     :return: None
     """
-    line = '#' * 10
-    print(f'{line}\n  CONNECTION ERROR \n{line}')
+    clear_screen()
+    line = '#' * 20
+    print(f'{line}\n# CONNECTION ERROR #\n{line}')
     exit(1)
 
 
