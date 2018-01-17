@@ -3,3 +3,4 @@ html5lib==0.999999999
 IMDbPY>=6.2
 pytest==3.3.0
 requests==2.18.4
+textwrap3==0.9.1
