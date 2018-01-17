@@ -47,7 +47,13 @@ pguide
 ```
 
 ## Sample run
-![sample run](attack_on_titan.png)
+![sample run](img/start.png)
+
+![search](img/search_results.png)
+
+![detail](img/detail.png)
+
+Just hitting the *ENTER* key will continue with the next screen. To exit enter an *n*.
 
 [python-version]:https://img.shields.io/badge/python-3.6.3-brightgreen.svg
 [travis-image]:https://travis-ci.org/clamytoe/pguide.svg?branch=master
