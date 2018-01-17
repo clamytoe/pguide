@@ -1,5 +1,6 @@
 import imdb
 import requests
+import textwrap
 from bs4 import BeautifulSoup
 from collections import namedtuple
 from os import system, name
@@ -33,17 +34,20 @@ def search_for_title(session, search_term):
     :param search_term: String for the movie/show/game to search for
     :return: A dictionary with Show() namedtuple objects for each match
     """
-    s_result = session.search_movie(search_term)
-    shows = {}
+    try:
+        s_result = session.search_movie(search_term)
+        shows = {}
 
-    # made the keys of the namedtuple a digit for ease of selecting the correct one later
-    for count, result in enumerate(s_result):
-        show_id = count
-        movie_id = result.movieID
-        title = result['long imdb canonical title']
-        url = f'http://www.imdb.com/title/tt{movie_id}/parentalguide'
-        shows[count] = Show(show_id, movie_id, title, url)
-    return shows
+        # made the keys of the namedtuple a digit for ease of selecting the correct one later
+        for count, result in enumerate(s_result):
+            show_id = count
+            movie_id = result.movieID
+            title = result['long imdb canonical title']
+            url = f'http://www.imdb.com/title/tt{movie_id}/parentalguide'
+            shows[count] = Show(show_id, movie_id, title, url)
+        return shows
+    except imdb._exceptions.IMDbDataAccessError:
+        display_error()
 
 
 def display_error():
@@ -69,7 +73,7 @@ def display_shows(shows):
     while True:
         # display a different question on the second or more pass
         if another:
-            again = input('Would you like to review a different one? ([y]/n)')
+            again = input('\nWould you like to review a different one? ([y]/n)')
             # if user replies with anything starting with a n, break out of the loop
             if again.lower().startswith('n'):
                 clear_screen()
@@ -79,11 +83,11 @@ def display_shows(shows):
 
         # list all of the shows that were found
         for n in range(len(shows)):
-            print(f'[{n}] {shows[n].title}')
+            print(f'[{n:02}] {shows[n].title}')
 
         # fix bug where a non-digit is given
         try:
-            choice = int(input('Which one would you like to review? '))
+            choice = int(input('\nWhich one would you like to review? '))
             another = True  # after first pass, set this flag
         except ValueError:
             clear_screen()
@@ -98,13 +102,14 @@ def display_shows(shows):
 
             # if the plot was found, display it, otherwise skip past it
             if plot:
-                print('[PLOT]')
-                print(f' {plot}')
+                print('\n[PLOT]\n')
+                wrapped = textwrap.dedent(plot).strip()
+                print(textwrap.fill(wrapped, initial_indent='    ', subsequent_indent='  ', width=110))
 
             # scrape the actual content that we need
             scrape_movie(shows[choice].url)
         else:
-            print(f'{choice} is not a valid choice!')
+            print(f'\n{choice} is not a valid choice!')
             break
 
 
@@ -116,10 +121,10 @@ def display_ratings(ratings):
     """
     # only attempt to display the ratings if any were found
     if ratings:
-        print('[RATINGS]')
+        print('\n[RATINGS]\n')
 
         for rating in ratings:
-            print(f' {rating}', end=' ')
+            print(f'  {rating}', end=' ')
         # needed to get printing back to normal
         print()
 
@@ -134,11 +139,13 @@ def display_section(title, category, category_comments):
     """
     # only attempt to print these if either of them were found
     if category or category_comments:
-        print(f'[{title.upper()}]')
-        print(f' {category}')
+        print(f'\n[{title.upper()}]')
+        print(f'  {category}\n')
 
         for comment in category_comments:
-            print(f'  * {comment}')
+            # print(f'  * {comment}')
+            wrapped = textwrap.dedent(comment).strip()
+            print(textwrap.fill(wrapped, initial_indent='  * ', subsequent_indent='    ', width=110))
 
 
 def scrape_movie(url):
