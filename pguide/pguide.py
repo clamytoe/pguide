@@ -83,7 +83,7 @@ def display_shows(shows):
 
         # list all of the shows that were found
         for n in range(len(shows)):
-            print(f'[{n:02}] {shows[n].title}')
+            print(f'[{n:2}] {shows[n].title}')
 
         # fix bug where a non-digit is given
         try:
@@ -91,7 +91,6 @@ def display_shows(shows):
             another = True  # after first pass, set this flag
         except ValueError:
             clear_screen()
-            print('Bye!')
             break
 
         if choice in shows.keys():
@@ -279,13 +278,24 @@ def main():
     clear_screen()
     print("Establishing a connection with the IMDb service...")
     session = initialize_connection()
-    search_term = input("What would you like me to look up for you? ")
+    another = True
+    while another:
+        clear_screen()
+        search_term = input("What would you like me to look up for you? ")
+        if search_term:
+            clear_screen()
+            print(f'Please wait while I search for "{search_term}"...')
+            shows = search_for_title(session, search_term)
+            clear_screen()
+            print(f'Found {len(shows)} matches.')
+            display_shows(shows)
+            another_one = input("Would you like to search for a different one? ([y]/n)")
+            if another_one.lower().startswith('n'):
+                another = False
+        else:
+            break
     clear_screen()
-    print(f'Please wait while I search for "{search_term}"...')
-    shows = search_for_title(session, search_term)
-    clear_screen()
-    print(f'Found {len(shows)} matches.')
-    display_shows(shows)
+    print('Bye!')
 
 
 if __name__ == '__main__':
