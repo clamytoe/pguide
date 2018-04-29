@@ -73,7 +73,7 @@ def display_shows(shows):
     while True:
         # display a different question on the second or more pass
         if another:
-            again = input('\nWould you like to review a different one? ([y]/n)')
+            again = input('\nWould you like to go back and review a different one? ([y]/n)')
             # if user replies with anything starting with a n, break out of the loop
             if again.lower().startswith('n'):
                 clear_screen()
@@ -290,7 +290,7 @@ def main():
             print(f'Found {len(shows)} matches.')
             if shows:
                 display_shows(shows)
-            another_one = input("Would you like to search for a different one? ([y]/n)")
+            another_one = input("Would you like to search for a different title? ([y]/n)")
             if another_one.lower().startswith('n'):
                 another = False
         else:
