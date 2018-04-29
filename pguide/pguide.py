@@ -288,7 +288,8 @@ def main():
             shows = search_for_title(session, search_term)
             clear_screen()
             print(f'Found {len(shows)} matches.')
-            display_shows(shows)
+            if shows:
+                display_shows(shows)
             another_one = input("Would you like to search for a different one? ([y]/n)")
             if another_one.lower().startswith('n'):
                 another = False
