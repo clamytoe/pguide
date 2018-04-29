@@ -193,9 +193,8 @@ def get_plot(url):
 
         # fixes bug were no plot is found
         try:
-            plot_class = plot_div.find('div', {'itemprop': 'description'})
-            plot_tag = plot_class.find('p')
-            plot = plot_tag.text.strip()
+            plot_class = plot_div.find('span', {'itemprop': 'description'})
+            plot = plot_class.text.strip()
             return ' '.join(plot.split())
         except AttributeError:
             return 'The plot was not available.'
