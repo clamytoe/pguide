@@ -9,6 +9,8 @@
 [![GitHub Stars][stars-image]][stars-url]
 [![License][license-image]][license-url]
 
+> NOTE: There is an issue with IMDbPY module that I was using it. I'll have to drop it and code my own scraper. Sorry for the inconvenience.
+
 My kids are big movie and anime buffs and are constantly asking me to look up shows to see if they are allowed to watch them. This of course takes time, more so when they bring you a list of them!
 
 I wrote this script to help me out with that task. I was surprised to discover that it also worked for video games! I did use [IMDbPY](https://github.com/alberanid/imdbpy) to help with the initial searching.
