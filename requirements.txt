@@ -2,5 +2,5 @@ beautifulsoup4==4.6.0
 html5lib==0.999999999
 -e git+https://github.com/alberanid/imdbpy#egg=IMDbPY
 pytest==3.3.0
-requests==2.18.4
+requests==2.20.1
 textwrap3==0.9.1
