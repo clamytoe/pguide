@@ -6,7 +6,7 @@ dependencies:
 - html5lib=0.999999999
 - pytest=3.3.0
 - python=3.6.3
-- requests=2.18.4
+- requests=2.20.1
 - pip:
   - imdbpy>=6.2
   - lxml==4.1.1
